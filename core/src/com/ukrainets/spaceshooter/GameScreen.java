@@ -42,8 +42,18 @@ public class GameScreen implements Screen {
     }
 
     @Override
-    public void render(float delta) {
+    public void render(float deltaTime) {
         batch.begin();
+
+        //scrolleng background
+
+        backgroundOffset++;
+        if(backgroundOffset % WORLD_HEIGHT == 0) {
+            backgroundOffset = 0;
+        }
+        batch.draw(background, 0,0 - backgroundOffset, WORLD_WIDTH, WORLD_HEIGHT);
+        batch.draw(background, 0,0 - backgroundOffset + WORLD_HEIGHT, WORLD_WIDTH, WORLD_HEIGHT);
+
 
 
         batch.end();
@@ -51,7 +61,8 @@ public class GameScreen implements Screen {
 
     @Override
     public void resize(int width, int height) {
-
+        viewport.update(width, height, true);
+        batch.setProjectionMatrix(camera.combined);
     }
 
     @Override

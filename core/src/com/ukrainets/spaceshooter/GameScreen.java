@@ -45,7 +45,7 @@ public class GameScreen implements Screen {
     public void render(float deltaTime) {
         batch.begin();
 
-        //scrolleng background
+        //scrolling background
 
         backgroundOffset++;
         if(backgroundOffset % WORLD_HEIGHT == 0) {

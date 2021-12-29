@@ -16,12 +16,9 @@ public class GameScreen implements Screen {
 
     //graphics
     private SpriteBatch batch;
-//    private Texture background;
-
     private Texture[] backgrounds;
-    //timing
-//    private int backgroundOffset;
 
+    //timing
     private float[] backgroundOffsets = {0,0,0,0};
     private float backgroundMaxScrollingSpeed;
 
@@ -32,9 +29,6 @@ public class GameScreen implements Screen {
     GameScreen() {
         camera = new OrthographicCamera();
         viewport = new StretchViewport(WORLD_WIDTH, WORLD_HEIGHT, camera);
-
-//        background = new Texture("darkPurpleStarscape.png");
-//        backgroundOffset = 0;
 
         backgrounds = new Texture[4];
         backgrounds[0] = new Texture("Starscape00.png");
@@ -58,7 +52,7 @@ public class GameScreen implements Screen {
         batch.begin();
 
         //scrolling background
-       renderBackground(deltaTime);
+        renderBackground(deltaTime);
 
 
         batch.end();
@@ -81,8 +75,6 @@ public class GameScreen implements Screen {
                     WORLD_WIDTH, WORLD_HEIGHT);
         }
     }
-
-
 
     @Override
     public void resize(int width, int height) {

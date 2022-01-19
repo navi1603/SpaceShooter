@@ -9,6 +9,8 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+import java.util.LinkedList;
+
 class GameScreen implements Screen {
 
     //screen
@@ -38,6 +40,8 @@ class GameScreen implements Screen {
     //game objects
     private Ship playerShip;
     private Ship enemyShip;
+    private LinkedList<Laser> playerLaserList;
+    private LinkedList<Laser> enemyLaserList;
 
 
     GameScreen() {
@@ -77,6 +81,9 @@ class GameScreen implements Screen {
                 WORLD_WIDTH/2, WORLD_HEIGHT*3/4,
                enemyShipTextureRegion, enemyShieldTextureRegion);
 
+        playerLaserList = new LinkedList<>();
+        enemyLaserList = new LinkedList<>();
+
 
         batch = new SpriteBatch();
     }
@@ -95,6 +102,7 @@ class GameScreen implements Screen {
         playerShip.draw(batch);
 
         //lasers
+
 
         //explosions
 

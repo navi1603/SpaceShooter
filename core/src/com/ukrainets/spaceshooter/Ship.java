@@ -3,7 +3,7 @@ package com.ukrainets.spaceshooter;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
-class Ship {
+abstract class Ship {
 
     //ship characteristics
     float movementSpeed;  //world units per second
@@ -22,11 +22,11 @@ class Ship {
     //graphics
     TextureRegion shipTextureRegion, shieldTextureRegion, laserTextureRegion;
 
-    public Ship(float movementSpeed, int shield,
+    public Ship(float xCentre, float yCentre,
                 float width, float height,
-                float xCentre, float yCentre,
-                float laserWidth, float laserHeight, float laserMovementSpeed,
-                float timeBetweenShoots,
+                float movementSpeed,int shield,
+                float laserWidth, float laserHeight,
+                float laserMovementSpeed, float timeBetweenShoots,
                 TextureRegion shipTextureRegion,
                 TextureRegion shieldTextureRegion,
                 TextureRegion laserTextureRegion) {
@@ -52,6 +52,8 @@ class Ship {
     public boolean canFireLaser() {
         return (timeSinceLaserShot - timeBetweenShoots >= 0);
     }
+
+    public abstract Laser[] fireLasers();
 
     public void draw(Batch batch) {
         batch.draw(shipTextureRegion, xPosition, yPosition, width, height);

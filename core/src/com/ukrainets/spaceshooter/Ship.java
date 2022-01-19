@@ -16,19 +16,18 @@ abstract class Ship {
     //laser information
     float laserWidth, laserHeight;
     float laserMovementSpeed;
-    float timeBetweenShoots;
-    float timeSinceLaserShot = 0;
+    float timeBetweenShots;
+    float timeSinceLastShot = 0;
 
     //graphics
     TextureRegion shipTextureRegion, shieldTextureRegion, laserTextureRegion;
 
     public Ship(float xCentre, float yCentre,
                 float width, float height,
-                float movementSpeed,int shield,
-                float laserWidth, float laserHeight,
-                float laserMovementSpeed, float timeBetweenShoots,
-                TextureRegion shipTextureRegion,
-                TextureRegion shieldTextureRegion,
+                float movementSpeed, int shield,
+                float laserWidth, float laserHeight, float laserMovementSpeed,
+                float timeBetweenShots,
+                TextureRegion shipTextureRegion, TextureRegion shieldTextureRegion,
                 TextureRegion laserTextureRegion) {
         this.movementSpeed = movementSpeed;
         this.shield = shield;
@@ -39,18 +38,18 @@ abstract class Ship {
         this.laserWidth = laserWidth;
         this.laserHeight = laserHeight;
         this.laserMovementSpeed = laserMovementSpeed;
-        this.timeBetweenShoots = timeBetweenShoots;
+        this.timeBetweenShots = timeBetweenShots;
         this.shipTextureRegion = shipTextureRegion;
         this.shieldTextureRegion = shieldTextureRegion;
         this.laserTextureRegion = laserTextureRegion;
     }
 
-    public void update (float deltaTime) {
-        timeSinceLaserShot += deltaTime;
+    public void update(float deltaTime) {
+        timeSinceLastShot += deltaTime;
     }
 
     public boolean canFireLaser() {
-        return (timeSinceLaserShot - timeBetweenShoots >= 0);
+        return (timeSinceLastShot - timeBetweenShots >= 0);
     }
 
     public abstract Laser[] fireLasers();

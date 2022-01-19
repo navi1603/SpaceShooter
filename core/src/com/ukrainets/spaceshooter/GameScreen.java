@@ -1,5 +1,6 @@
 package com.ukrainets.spaceshooter;
 
+
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -10,6 +11,7 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import java.util.LinkedList;
+import java.util.ListIterator;
 
 class GameScreen implements Screen {
 
@@ -28,7 +30,6 @@ class GameScreen implements Screen {
             enemyShipTextureRegion, enemyShieldTextureRegion,
             playerLaserTextureRegion, enemyLaserTextureRegion;
 
-
     //timing
     private float[] backgroundOffsets = {0, 0, 0, 0};
     private float backgroundMaxScrollingSpeed;
@@ -42,7 +43,6 @@ class GameScreen implements Screen {
     private Ship enemyShip;
     private LinkedList<Laser> playerLaserList;
     private LinkedList<Laser> enemyLaserList;
-
 
     GameScreen() {
 
@@ -69,21 +69,24 @@ class GameScreen implements Screen {
         enemyShieldTextureRegion = textureAtlas.findRegion("shield1");
         enemyShieldTextureRegion.flip(false, true);
 
-        playerLaserTextureRegion= textureAtlas.findRegion("laserBlue03");
-        enemyLaserTextureRegion= textureAtlas.findRegion("laserRed03");
-
+        playerLaserTextureRegion = textureAtlas.findRegion("laserBlue03");
+        enemyLaserTextureRegion = textureAtlas.findRegion("laserRed03");
 
         //set up game objects
-        playerShip = new Ship(2, 3, 10, 10,
-                WORLD_WIDTH/2, WORLD_HEIGHT/4,
-                playerShipTextureRegion, playerShieldTextureRegion);
-        enemyShip = new Ship(2, 1, 10, 10,
-                WORLD_WIDTH/2, WORLD_HEIGHT*3/4,
-               enemyShipTextureRegion, enemyShieldTextureRegion);
+        playerShip = new PlayerShip(WORLD_WIDTH / 2, WORLD_HEIGHT / 4,
+                10, 10,
+                2, 3,
+                0.4f, 4, 45, 0.5f,
+                playerShipTextureRegion, playerShieldTextureRegion, playerLaserTextureRegion);
+
+        enemyShip = new EnemyShip(WORLD_WIDTH / 2, WORLD_HEIGHT * 3 / 4,
+                10, 10,
+                2, 1,
+                0.3f, 5, 50, 0.8f,
+                enemyShipTextureRegion, enemyShieldTextureRegion ,enemyLaserTextureRegion);
 
         playerLaserList = new LinkedList<>();
         enemyLaserList = new LinkedList<>();
-
 
         batch = new SpriteBatch();
     }
@@ -91,6 +94,9 @@ class GameScreen implements Screen {
     @Override
     public void render(float deltaTime) {
         batch.begin();
+
+        playerShip.update(deltaTime);
+        enemyShip.update(deltaTime);
 
         //scrolling background
         renderBackground(deltaTime);
@@ -102,7 +108,42 @@ class GameScreen implements Screen {
         playerShip.draw(batch);
 
         //lasers
+        //create new lasers
+        //player lasers
+        if (playerShip.canFireLaser()) {
+            Laser[] lasers = playerShip.fireLasers();
+            for (Laser laser: lasers) {
+                playerLaserList.add(laser);
+            }
+        }
+        //enemy lasers
+        if (enemyShip.canFireLaser()) {
+            Laser[] lasers = enemyShip.fireLasers();
+            for (Laser laser: lasers) {
+                enemyLaserList.add(laser);
+            }
+        }
 
+        //draw lasers
+        //remove old lasers
+        ListIterator<Laser> iterator = playerLaserList.listIterator();
+        while(iterator.hasNext()) {
+            Laser laser = iterator.next();
+            laser.draw(batch);
+            laser.yPosition += laser.movementSpeed*deltaTime;
+            if (laser.yPosition > WORLD_HEIGHT) {
+                iterator.remove();
+            }
+        }
+        iterator = enemyLaserList.listIterator();
+        while(iterator.hasNext()) {
+            Laser laser = iterator.next();
+            laser.draw(batch);
+            laser.yPosition -= laser.movementSpeed*deltaTime;
+            if (laser.yPosition + laser.height < 0) {
+                iterator.remove();
+            }
+        }
 
         //explosions
 

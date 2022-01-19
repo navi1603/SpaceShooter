@@ -13,12 +13,20 @@ class Ship {
     float xPosition, yPosition; //lower-left corner
     float width, height;
 
+    //laser information
+    float laserWidth, laserHeight;
+    float laserMovementSpeed;
+    float timeBetweenShoots;
+    float timeSinceLaserShot = 0;
+
     //graphics
     TextureRegion shipTextureRegion, shieldTextureRegion, laserTextureRegion;
 
     public Ship(float movementSpeed, int shield,
                 float width, float height,
                 float xCentre, float yCentre,
+                float laserWidth, float laserHeight, float laserMovementSpeed,
+                float timeBetweenShoots,
                 TextureRegion shipTextureRegion,
                 TextureRegion shieldTextureRegion,
                 TextureRegion laserTextureRegion) {
@@ -28,9 +36,21 @@ class Ship {
         this.yPosition = yCentre - height / 2;
         this.width = width;
         this.height = height;
+        this.laserWidth = laserWidth;
+        this.laserHeight = laserHeight;
+        this.laserMovementSpeed = laserMovementSpeed;
+        this.timeBetweenShoots = timeBetweenShoots;
         this.shipTextureRegion = shipTextureRegion;
         this.shieldTextureRegion = shieldTextureRegion;
         this.laserTextureRegion = laserTextureRegion;
+    }
+
+    public void update (float deltaTime) {
+        timeSinceLaserShot += deltaTime;
+    }
+
+    public boolean canFireLaser() {
+        return (timeSinceLaserShot - timeBetweenShoots >= 0);
     }
 
     public void draw(Batch batch) {

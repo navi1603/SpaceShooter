@@ -63,9 +63,15 @@ abstract class Ship {
         }
     }
 
+    public void translate(float xChange, float yChange) {
+        boundingBox.setPosition(boundingBox.x + xChange, boundingBox.y + yChange);
+    }
+
     public void hit(Laser laser) {
         if (shield > 0) {
             shield --;
         }
     }
+
+
 }

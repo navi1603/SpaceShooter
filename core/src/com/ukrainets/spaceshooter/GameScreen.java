@@ -75,13 +75,13 @@ class GameScreen implements Screen {
         //set up game objects
         playerShip = new PlayerShip(WORLD_WIDTH / 2, WORLD_HEIGHT / 4,
                 10, 10,
-                2, 3,
+                2, 6,
                 0.4f, 4, 45, 0.5f,
                 playerShipTextureRegion, playerShieldTextureRegion, playerLaserTextureRegion);
 
         enemyShip = new EnemyShip(WORLD_WIDTH / 2, WORLD_HEIGHT * 3 / 4,
                 10, 10,
-                2, 1,
+                2, 5,
                 0.3f, 5, 50, 0.8f,
                 enemyShipTextureRegion, enemyShieldTextureRegion ,enemyLaserTextureRegion);
 
@@ -126,6 +126,7 @@ class GameScreen implements Screen {
             Laser laser = iterator.next();
             if (enemyShip.intersects(laser.getBoundingBox())) {
                 // contact with enemy ship
+                enemyShip.hit(laser);
                 iterator.remove();
             }
          }
@@ -136,6 +137,7 @@ class GameScreen implements Screen {
             Laser laser = iterator.next();
             if (playerShip.intersects(laser.getBoundingBox())) {
                 // contact with enemy ship
+                playerShip.hit(laser);
                 iterator.remove();
             }
         }

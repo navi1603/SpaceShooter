@@ -13,6 +13,7 @@ abstract class Ship {
     //position & dimension
     float xPosition, yPosition; //lower-left corner
     float width, height;
+    Rectangle boundingBox;
 
     //laser information
     float laserWidth, laserHeight;
@@ -36,6 +37,7 @@ abstract class Ship {
         this.yPosition = yCentre - height / 2;
         this.width = width;
         this.height = height;
+        this.boundingBox = new Rectangle(xPosition, yPosition, width, height);
         this.laserWidth = laserWidth;
         this.laserHeight = laserHeight;
         this.laserMovementSpeed = laserMovementSpeed;
@@ -46,6 +48,7 @@ abstract class Ship {
     }
 
     public void update(float deltaTime) {
+        boundingBox.set(xPosition, yPosition, width, height);
         timeSinceLastShot += deltaTime;
     }
 
@@ -56,14 +59,19 @@ abstract class Ship {
     public abstract Laser[] fireLasers();
 
     public boolean intersects(Rectangle otherRectangle) {
-        Rectangle thisRectangle = new Rectangle(xPosition, yPosition, width, height);
-        return thisRectangle.overlaps(otherRectangle);
+        return boundingBox.overlaps(otherRectangle);
     }
 
     public void draw(Batch batch) {
         batch.draw(shipTextureRegion, xPosition, yPosition, width, height);
         if (shield > 0) {
             batch.draw(shieldTextureRegion, xPosition, yPosition, width, height);
+        }
+    }
+
+    public void hit(Laser laser) {
+        if (shield > 0) {
+            shield --;
         }
     }
 }

@@ -2,6 +2,7 @@ package com.ukrainets.spaceshooter;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Rectangle;
 
 abstract class Ship {
 
@@ -53,6 +54,11 @@ abstract class Ship {
     }
 
     public abstract Laser[] fireLasers();
+
+    public boolean intersects(Rectangle otherRectangle) {
+        Rectangle thisRectangle = new Rectangle(xPosition, yPosition, width, height);
+        return thisRectangle.overlaps(otherRectangle);
+    }
 
     public void draw(Batch batch) {
         batch.draw(shipTextureRegion, xPosition, yPosition, width, height);

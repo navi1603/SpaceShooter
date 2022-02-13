@@ -6,6 +6,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -26,6 +27,7 @@ class GameScreen implements Screen {
     //graphics
     private SpriteBatch batch;
     private TextureAtlas textureAtlas;
+    private Texture explosionTexture;
 
     private TextureRegion[] backgrounds;
     private float backgroundHeight; //height of background in World units
@@ -50,6 +52,7 @@ class GameScreen implements Screen {
     private LinkedList<EnemyShip> enemyShipList;
     private LinkedList<Laser> playerLaserList;
     private LinkedList<Laser> enemyLaserList;
+    private LinkedList<Explosion> explosionList;
 
     GameScreen() {
 
@@ -78,6 +81,8 @@ class GameScreen implements Screen {
 
         playerLaserTextureRegion = textureAtlas.findRegion("laserBlue03");
         enemyLaserTextureRegion = textureAtlas.findRegion("laserRed03");
+
+        explosionTexture = new Texture("explosion.png");
 
         //set up game objects
         playerShip = new PlayerShip(WORLD_WIDTH / 2, WORLD_HEIGHT / 4,
